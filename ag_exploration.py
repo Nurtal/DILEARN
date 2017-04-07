@@ -205,7 +205,7 @@ def evaluate_individual(individual, data_file_name, method, filter_strat):
 	score_file.close()
 
 	results = {}
-	results["score"] = score
+	results["score"] = float(score)
 	results["id"] = individual._id
 	return results
 
@@ -262,9 +262,13 @@ def grade_population(population, data_file_name, score_method, filter_strat, mul
 
 		# => create structure to return
 		for tup in tup_list:
-			score_list.append(float(tup["score"]))
-			score_to_individuals[tup["id"]] = tup["score"]
-		
+			try:
+				score_list.append(float(tup["score"]))
+				score_to_individuals[tup["id"]] = tup["score"]
+			except:
+				print"[!] grading problem"
+
+
 		# => delete temporary files
 		for individual in population:
 			os.remove("DATA\\patientIndex_"+str(individual._id)+".csv")	
